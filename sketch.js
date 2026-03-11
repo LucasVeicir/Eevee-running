@@ -37,12 +37,9 @@ function setup(){
     createCanvas(windowWidth,windowHeight);
     eve = createSprite(50, height - 120, 20, 50);
     eve.addAnimation("running", eveRunning);
-    eve.scale=0.5;
     eve.x=50;
     ground1=createSprite(width/2,height-GROUNDYOFFSET)
     ground1.addImage(groundImage);
-    // ground1.scale = 1;
-    //ground1.width = ground.width /2
     ground2 = createSprite(width/2+groundImage.width,height-GROUNDYOFFSET);
     ground2.addImage(groundImage)
     edges=createEdgeSprites();
@@ -51,8 +48,6 @@ function setup(){
     invisibleGround = createSprite(width/2,height -GROUNDYOFFSET + 4,width*2,10);
     invisibleGround.visible = false;
     eve.setCollider("rectangle", 0, 0, 40, eve.height);
-    //eve
-    // .debug = true;
     gameOver = createSprite(width/2, height/2);
     gameOver.addImage(gameOverImg);
     gameOver.scale = 0.5;
@@ -80,9 +75,8 @@ function draw(){
         if(ground2.x < -groundImage.width /2){
             ground2.x = ground1.x + groundImage.width;
         }
-        console.log(eve.y)
         if((touches.length>0 || keyDown("space")) && eve.collide(invisibleGround)){
-            eve.velocityY= -10;
+            eve.velocityY= -12;
             jumpSound.play();
             touches = [];
         }
@@ -98,8 +92,6 @@ function draw(){
         if(obstaclesGroup.isTouching(eve)){
             gameState = END;
             dieSound.play();
-            //eve.velocity.y = -12;
-            //jumpSound.play();
         }
     }
     else if(gameState === END){
@@ -111,8 +103,6 @@ function draw(){
 
         cloudsGroup.setVelocityXEach(0);
         cloudsGroup.setLifetimeEach(-1);
-
-        eve.changeAnimation("collided", eveCollided);
         eve.velocityY = 0;
         gameOver.visible = true;
         restart.visible = true;
@@ -150,8 +140,7 @@ function spawnObstacles(){
      if(frameCount % 120 === 0){
         obstacle = createSprite(width, height-100, 40, 10);
         obstacle.addImage(obstacle1);
-        obstacle.y = Math.round(random(height-100,height-120));
-        obstacle.scale = 0.4;
+        obstacle.y = Math.round(random(height-80,height-100));
         obstacle.velocityX = -3;
         obstacle.lifetime = width/6;
 
